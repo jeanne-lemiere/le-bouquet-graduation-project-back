@@ -21,8 +21,10 @@ router.get('/product/:id', productController.getOneProduct);
 
 
 /* Customers */
-//router.get('/customer/:id', customerController.getOneCustomer);
-router.post('/customer/login', customerController.customerHandleLoginForm); 
+router.get('/customer/:id', customerController.getOneCustomer);
+router.post('/customer/login', customerController.customerHandleLoginForm); // LOGIN
+router.post('/customer/signup', customerController.customerHandleSignupForm); // SIGNUP
+
 
 /* Orders */
 router.get('/order/:id', orderController.getOneOrder);

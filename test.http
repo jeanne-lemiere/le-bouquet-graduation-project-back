@@ -28,3 +28,30 @@ Content-Type: application/json
     "email": "doa06@gmail.com",
     "password": "soismonami"
 }
+
+### création d'un compte customer
+POST http://localhost:3000/customer/signup
+Content-Type: application/json
+
+{
+    "gender": "F",
+    "email": "dora06@gmail.com",
+    "password": "soismonami",
+    "passwordConfirm" : "soismonami",
+    "lastname": "Exploratrice",
+    "firstname": "Dora",
+    "phone_number": "0661737865",
+    "street_name": "boulevard Tokyo",
+    "street_number": "13",
+    "city": "Paris",
+    "zipcode": 75000
+}
+
+### connexion à un compte customer
+POST http://localhost:3000/customer/login
+Content-Type: application/json
+
+{
+    "email": "dora06@gmail.com",
+    "password": "soismonami"
+}

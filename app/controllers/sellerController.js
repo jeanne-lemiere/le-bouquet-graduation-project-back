@@ -103,23 +103,21 @@ const sellerController = {
 
     getAllSellers: async (req, res) => {
     try {
-      const sellers = await Seller.findAll({
-        
+      const sellers = await Seller.findAll({     
         raw: true
       });
 
-      //console.log("sellers de BIENNNNNNNNNNN",sellers)
-      const { password, ...sellerData} = sellers; // ainsi sellerData ne contient pas le password et le confirmPassword
-
-    //   sellers.forEach(element => {
-    //     const { password, ...sellerData} = element.dataValues;
-
-    //   });
-
-    //   const newData 
-
-      console.log("SELLERDATA",sellerData[0])
-      res.json(sellers);
+      if (!sellers) {
+        return res.status(404).json('Cant find sellers');
+      }
+      const sellersData = []
+      sellers.forEach(element => {
+        const { password, ...sellerData} = element; // on retire les password avant d'envoyer les données
+        sellersData.push(sellerData)
+      });
+      
+      res.json(sellersData);
+      
     } catch (error) {
       console.trace(error);
       res.status(500).json(error.toString());

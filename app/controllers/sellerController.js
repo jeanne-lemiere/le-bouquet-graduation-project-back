@@ -145,8 +145,7 @@ const sellerController = {
     try {
         const sellerId = req.params.id;
         const { email, password, passwordConfirm } = req.body;
-  
-        
+   
         let seller = await Seller.findByPk(sellerId);
         if (!seller) {
           res.status(404).json(`Cant find seller with id ${sellerId}`);
@@ -161,7 +160,7 @@ const sellerController = {
                 const sellerExists = await Seller.findOne({
                     where: {
                         email: req.body.email,
-                    } // donc erreur
+                    }
                 });
 
                 if (sellerExists) {

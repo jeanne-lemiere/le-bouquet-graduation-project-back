@@ -146,7 +146,7 @@ const sellerController = {
         const sellerId = req.params.id;
         const { email, password, passwordConfirm } = req.body;
   
-        // on inclue les tags pour pouvoir les renvoyer à la fin de l'update
+        
         let seller = await Seller.findByPk(sellerId);
         if (!seller) {
           res.status(404).json(`Cant find seller with id ${sellerId}`);
@@ -204,7 +204,7 @@ const sellerController = {
             
 
           await seller.save();
-          
+
           res.json(seller);
         }
     } catch (error) {

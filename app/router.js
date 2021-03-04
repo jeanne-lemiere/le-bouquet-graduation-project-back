@@ -17,12 +17,15 @@ router.get('/', (req, res) => {
 /** Products */
 router.get('/products', productController.getAllProducts);
 router.get('/product/:id', productController.getOneProduct);
+
+
 //router.get('/seller/:id/products', productController.getProductsFromSeller);
 
 
 /* Customers */
-//router.get('/customer/:id', customerController.getOneCustomer);
-router.post('/customer/login', customerController.customerHandleLoginForm); 
+// router.get('/customer/:id', customerController.getOneCustomer);
+// router.post('/customer/login', customerController.customerHandleLoginForm); // LOGIN
+// router.post('/customer/signup', customerController.customerHandleSignupForm); // SIGNUP
 
 /* Orders */
 router.get('/order/:id', orderController.getOneOrder);

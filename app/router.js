@@ -42,6 +42,7 @@ router.get('/sellers', sellerController.getAllSellers);
 router.post('/seller/login', sellerController.sellerHandleLoginForm); // LOGIN
 
 router.post('/seller/signup', sellerController.sellerHandleSignupForm); // SIGNUP
+router.patch('/seller/:id', sellerController.editSeller);
 
 router.get('/seller/:id', sellerController.getOneSeller);
 

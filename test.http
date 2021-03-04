@@ -1,14 +1,14 @@
 ### création d'un compte seller
-POST http://localhost:3000/seller/login
+POST http://localhost:3000/seller/signup
 Content-Type: application/json
 
 {
-    "gender": "male",
-    "email": "alandu0678@gmail.com",
-    "password": "cornemuse",
-    "passwordConfirm" : "cornemuse",
-    "lastname": "Carter",
-    "firstname": "John",
+    "gender": "F",
+    "email": "doa06@gmail.com",
+    "password": "soismonami",
+    "passwordConfirm" : "soismonami",
+    "lastname": "Exploratrice",
+    "firstname": "Dora",
     "phone_number": "0661737865",
     "street_name": "boulevard Tokyo",
     "street_number": "13",
@@ -25,6 +25,6 @@ POST http://localhost:3000/seller/login
 Content-Type: application/json
 
 {
-    "email": "alandu0678@gmail.com",
-    "password": "cornemuse"
+    "email": "doa06@gmail.com",
+    "password": "soismonami"
 }

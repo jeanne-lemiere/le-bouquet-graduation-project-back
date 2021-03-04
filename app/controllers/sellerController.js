@@ -6,7 +6,8 @@ const sellerController = {
     sellerHandleLoginForm: async (request, response) => {
         try {
 
-            //on cherche à identifier le seller à partir de son email
+            // on cherche à identifier le seller à partir de son email
+            // we are trying to identify a seller from his password
             const email = request.body.email;
             const seller = await Seller.findOne({
                 where: { 
@@ -14,29 +15,27 @@ const sellerController = {
                             }
                 })
 
-                //si aucun seller touvé avec cet email => message d'erreur
+                // if no seller found with this email => error
                 if (!seller) {
                     return response.status(403).json('Email ou mot de passe incorrect')
                 }
 
-                console.log("seller.dataValues.password", seller.dataValues.password)
+                
                 // the seller with this email exists, let's compare received password with the hashed one in database
                 
-                //bcrypt est capable de déterminer si les 2 version du mot de passe correspondent
+                // bcrypt can check if 2 passwords are the same, the password entered by user and the one in database 
                 const validPwd = bcrypt.compareSync(request.body.password, seller.dataValues.password);
 
                 if (!validPwd) {
-                    //la vérification a échoué, on envoie un message d'erreur
+                    // password is not correct, we send an error
                     return response.status(403).json('Email ou mot de passe incorrect')
                 }
 
-                const { password, passwordConfirm, ...sellerData} = seller.dataValues; // 
+                const { password, ...sellerData} = seller.dataValues; // like this, we remove password from object that we'll send because it is sensitive data
                 
-
-                //le seller existe et s'est correctement identifié, on envoie les données de l'utilisateur en réponse
-                
+                // this seller exists and identified himself, we send him his data (witout password)
                 response.status(200).json(sellerData);
-                //response.redirect('/');
+                
             } catch (error) {
                     console.log(error);
             }
@@ -54,28 +53,27 @@ const sellerController = {
             }
         });
 
-
         if (seller) {
             //il y a déjà un utilisateur avec cet email, on envoie une erreur
-            //return response.render('signup', {error: 'Un seller avec cet email existe déjà'});
+            // there is already a seller with this email
+            
             return response.status(403).json('Un compte existe déjà avec cet email, veuillez réessayer avec un autre email');
         }
         //on rechecke que l'email a un format valide
         if (!validator.validate(request.body.email)) {
-            //le format de l'email est incorrect
-            //return response.render('signup', {error: 'Le format de l\'email est incorrect'});
+            // the email given has not valid format 
             return response.status(403).json('Le format de l\'email est incorrect'); 
         }
-        //on check si le password et la vérif sont bien identiques
+        // let's check that password and password-confirmation are the same
         if (request.body.password !== request.body.passwordConfirm) {
-            //return response.render('signup', {error: 'La confirmation du mot de passe est incorrecte'});
+            // they are not the same;
             return response.status(403).json('La confirmation du mot de passe a échoué');
         }
-        //on hache le password
+        // we hash password
         const hashedPwd = bcrypt.hashSync(request.body.password, 10)
         
 
-        //on inscrit le nouveau seller en BDD
+        // we add the new seller in database
         
         await Seller.create({
             gender: request.body.gender,
@@ -93,7 +91,7 @@ const sellerController = {
             shop_name: request.body.shop_name,
             shop_presentation: request.body.shop_presentation
         });
-        //response.redirect('/login');
+        
         response.status(200).json('Votre compte a bien été créé');
     } catch(error) {
         console.log(error);
@@ -112,12 +110,12 @@ const sellerController = {
       }
       const sellersData = []
       sellers.forEach(element => {
-        const { password, ...sellerData} = element; // on retire les password avant d'envoyer les données
+        const { password, ...sellerData} = element; // like this, we remove passwords from object that we'll send because it is sensitive data
         sellersData.push(sellerData)
       });
       
       res.json(sellersData);
-      
+
     } catch (error) {
       console.trace(error);
       res.status(500).json(error.toString());
@@ -128,8 +126,12 @@ const sellerController = {
     try {
       const sellerId = req.params.id;
       const seller = await Seller.findByPk(sellerId);
+      
       if (seller) {
-        res.status(200).json(seller);
+        
+        const { password, ...sellerData} = seller.dataValues; // like this, we remove password from object that we'll send because it is sensitive data
+        
+        res.status(200).json(sellerData);
       } else {
         res.status(404).json('Cant find seller with id ' + sellerId);
       }

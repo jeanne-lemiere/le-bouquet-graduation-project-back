@@ -1,0 +1,30 @@
+### création d'un compte seller
+POST http://localhost:3000/seller/login
+Content-Type: application/json
+
+{
+    "gender": "male",
+    "email": "alandu0678@gmail.com",
+    "password": "cornemuse",
+    "passwordConfirm" : "cornemuse",
+    "lastname": "Carter",
+    "firstname": "John",
+    "phone_number": "0661737865",
+    "street_name": "boulevard Tokyo",
+    "street_number": "13",
+    "city": "Paris",
+    "zipcode": 75000,
+    "picture_url": "https://img-4.linternaute.com/lUM_6jl2EZ6NpWNkH70wj25s0aw=/1240x/1b2dbaad11b84ee8bde02cfcd0b823dd/ccmcms-linternaute/83141.jpg",
+    "siret": 82365600199999,
+    "shop_name": "Chez David",
+    "shop_presentation": "Je suis vendeur de légumes reconverti dans les roses"
+}
+
+### connexion à un compte seller
+POST http://localhost:3000/seller/login
+Content-Type: application/json
+
+{
+    "email": "alandu0678@gmail.com",
+    "password": "cornemuse"
+}

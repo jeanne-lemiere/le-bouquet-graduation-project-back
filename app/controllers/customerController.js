@@ -1,61 +1,57 @@
-const Customer = require('../models/customer');
+const { Customer } = require('../models');
+const bcrypt = require('bcrypt');
+const validator = require('email-validator');
 
 const customerController = {
-  customerHandleLoginForm: async (request, response) => {
-    try {
-            //on cherche à identifier le customer à partir de son email
-      const email = request.body.email;
-      const customer = await Customer.findOne({
-         where: {
-           email
-                 }
-          })
+    customerHandleLoginForm: async (request, response) => {
+        try {
+            // on cherche à identifier le customer à partir de son email
+            // we are trying to identify a customer from his password
+            const email = request.body.email;
 
-            //si aucun customer touvé avec cet email => message d'erreur
-        if (!customer) {
-          return response.render('login', {
-                    error: 'Email ou mot de passe incorrect'
-                });
+            if (!validator.validate(email)) {
+                // the email given has not valid format 
+                return response.status(403).json('Le format de l\'email est incorrect'); 
             }
-
-    
-            //le customer avec cet email existe, on vérifie son mot de passe en comparant :
-            //- la version en clair saisie dans le formulaire
-            //- la version hachée stockée en BDD
-            //bcrypt est capable de déterminer si les 2 version du mot de passe correcpondent
-            const validPwd = bcrypt.compareSync(request.body.password, customer.password);
+            
+            const customer = await Customer.findOne({
+                where: { 
+                    email
+                },
+            })
+                
+            // if no customer found with this email => error
+            if (!customer) {
+                return response.status(403).json('Email ou mot de passe incorrect')
+            }
+  
+            // the customer with this email exists, let's compare received password with the hashed one in database
+            
+            // bcrypt can check if 2 passwords are the same, the password entered by user and the one in database 
+            const validPwd = bcrypt.compareSync(request.body.password, customer.dataValues.password);
 
             if (!validPwd) {
-                //la vérification a échoué, on envoie un message d'erreur
-                return response.render('login', {
-                    error: 'Email ou mot de passe incorrect'
-                });
+                // password is not correct, we send an error
+                return response.status(403).json('Email ou mot de passe incorrect')
             }
+            
+            // this customer exists and identified himself, we send him his data (witout password)
+            const updatedCustomer = await Customer.findOne({
+                where: { 
+                    email
+                },
+                attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send
+      
+            })
+            
+            response.status(200).json(updatedCustomer);
+            
+        } catch (error) {
+                    console.log(error);
+        }
 
+    },
 
-            //le customer existe et s'est correctement identifié, on stocke les infos qui vont bien dans la session
-
-            request.session.user = {
-                firstname: customer.firstname,
-                lastname: customer.lastname,
-                email: customer.email,
-                role: "customer",
-            };
-
-            if (request.body.remember) {
-                //l'utilisateur a coché la case 'se souvenir de moi'
-                //on ajoute une heiure de validité à sa session
-                //il peut ainsi quitter son navigateur et revenir sur la page, il devrait rester connecté
-                //on indique en date d'expiration la date courante + une heure (en millisecondes)
-                request.session.cookie.expires = new Date(Date.now() + 3600000);
-            }
-
-            response.redirect('/');
-    } catch (error) {
-            console.log(error);
-    }
-
-   },
 
    customerHandleSignupForm: async (request, response) => {
     try {
@@ -66,24 +62,27 @@ const customerController = {
                 email: request.body.email
             }
         });
+
         if (customer) {
             //il y a déjà un utilisateur avec cet email, on envoie une erreur
-            return response.render('signup', {error: 'Un utilisateur avec cet email existe déjà'});
+            // there is already a customer with this email  
+            return response.status(403).json('Un compte existe déjà avec cet email, veuillez réessayer avec un autre email');
         }
-        //on rechecke que l'email a un format valide
+        //on checke que l'email a un format valide
         if (!validator.validate(request.body.email)) {
-            //le format de l'email est incorrect
-            return response.render('signup', {error: 'Le format de l\'email est incorrect'});
+            // the email given has not valid format 
+            return response.status(403).json('Le format de l\'email est incorrect'); 
         }
-        //on checke si le password et la vérif sont bien identiques
+        // let's check that password and password-confirmation are the same
         if (request.body.password !== request.body.passwordConfirm) {
-            return response.render('signup', {error: 'La confirmation du mot de passe est incorrecte'});
+            // they are not the same;
+            return response.status(403).json('La confirmation du mot de passe a échoué');
         }
-        //on hache le password
+        // we hash password
         const hashedPwd = bcrypt.hashSync(request.body.password, 10)
         
 
-        //on inscrit le nouveau customer en BDD
+        // we add the new customer in database
         
         await Customer.create({
             gender: request.body.gender,
@@ -97,11 +96,125 @@ const customerController = {
             city: request.body.city,
             zipcode: request.body.zipcode
         });
-        response.redirect('/login');
+        
+        response.status(200).json('success');
     } catch(error) {
         console.log(error);
     }
 },
+
+
+    getAllCustomers: async (req, res) => {
+    try {
+      const customers = await Customer.findAll({ 
+        attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send
+      });
+
+      if (!customers) {
+        return res.status(404).json('Cant find customers');
+      }
+      
+      res.json(customers);
+
+    } catch (error) {
+      console.trace(error);
+      res.status(500).json(error.toString());
+    }
+  },
+
+  getOneCustomer: async (req, res) => {
+    try {
+      const customerId = req.params.id;
+      const customer = await Customer.findByPk(customerId, {
+        attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send    
+      });
+      
+      if (customer) {  
+        res.status(200).json(customer);
+      
+    } else {
+        res.status(404).json('Cant find customer with id ' + customerId);
+      }
+    } catch (error) {
+      console.trace(error);
+      res.status(500).json(error.toString());
+    }
+  },
+
+  editCustomerProfile: async (req, res) => {
+    try {
+        const customerId = req.params.id;
+        const { email, password, passwordConfirm } = req.body;
+   
+        let customer = await Customer.findByPk(customerId);
+        if (!customer) {
+          res.status(404).json(`Cant find customer with id ${customerId}`);
+        } else {
+
+            if (email) {
+                //on checke que l'email a un format valide
+                if (!validator.validate(req.body.email)) {
+                    // the email given has not valid format 
+                    return res.status(403).json('Le format de l\'email est incorrect'); 
+                }
+                const customerExists = await Customer.findOne({
+                    where: {
+                        email: email,
+                    }
+                });
+
+                if (customerExists) {
+                    // il y a déjà un customer avec cet email, on envoie une erreur
+                    // there is already a customer with this email => error
+                    return res.status(403).json('Un compte existe déjà avec cet email, veuillez réessayer avec un autre email');
+                }
+            } 
+            // if we get here, it means that email format is valid and no other customer has this email
+
+
+            // on ne change que les paramètres envoyés
+            // we patch with received data only
+            for(const element in req.body) {
+                //console.log(element)
+                if (customer[element] && element!= 'password') { // we check that req.body doesn't contain anything unwanted, so it CAN'T contain properties that customer does not have (except passwordConfirm). We don't 
+                    customer[element] = req.body[element] // instead of having 14 conditions like ` if (email) { customer.email = email } ` this will do all the work in 2 lines
+                    console.log("OK pour : "+element)
+                } else {
+                    console.log(element+" n'est pas une propriété attendue ici")
+                }
+            }
+
+            if (password) {
+                if (password != passwordConfirm) {
+                    return res.status(403).json('La confirmation du mot de passe a échoué');
+                }
+
+                const hashedPwd = bcrypt.hashSync(req.body.password, 10)
+                customer.password = hashedPwd;
+            }
+
+            // other way to do this :
+            //     if (firstname) {
+            //        customer.firstname = firstname;
+            //     }
+            //     if (lastname) {
+            //        customer.lastname = lastname;
+            //     }
+            
+
+          await customer.save();
+          
+          const updatedCustomer = await Customer.findByPk(customerId, {
+            attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send 
+          });
+
+          res.json(updatedCustomer);
+        }
+    } catch (error) {
+      console.trace(error);
+      res.status(500).json(error.toString());
+    }
+  },
 };
 
 module.exports = customerController;

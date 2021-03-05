@@ -22,10 +22,13 @@ router.get('/product/:id', productController.getOneProduct);
 router.get('/seller/:id/products', productController.getProductsFromSeller);
 
 
-/* Customers */
-// router.get('/customer/:id', customerController.getOneCustomer);
-// router.post('/customer/login', customerController.customerHandleLoginForm); // LOGIN
-// router.post('/customer/signup', customerController.customerHandleSignupForm); // SIGNUP
+
+router.get('/customers', customerController.getAllCustomers);
+router.get('/customer/:id', customerController.getOneCustomer);
+router.patch('/customer/:id', customerController.editCustomerProfile);
+router.post('/customer/login', customerController.customerHandleLoginForm); // LOGIN
+router.post('/customer/signup', customerController.customerHandleSignupForm); // SIGNUP
+
 
 /* Orders */
 router.get('/order/:id', orderController.getOneOrder);

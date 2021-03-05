@@ -1,4 +1,4 @@
-const Seller = require('../models/seller');
+const {Seller} = require('../models');
 const bcrypt = require('bcrypt');
 const validator = require('email-validator');
 // const { Op } = require('sequelize');
@@ -9,18 +9,23 @@ const sellerController = {
             // on cherche à identifier le seller à partir de son email
             // we are trying to identify a seller from his password
             const email = request.body.email;
+
+            if (!validator.validate(email)) {
+                // the email given has not valid format 
+                return response.status(403).json('Le format de l\'email est incorrect'); 
+            }
+
             const seller = await Seller.findOne({
                 where: { 
                     email
-                            }
-                })
-
+                },
+            })
+                
             // if no seller found with this email => error
             if (!seller) {
                 return response.status(403).json('Email ou mot de passe incorrect')
             }
-
-            
+  
             // the seller with this email exists, let's compare received password with the hashed one in database
             
             // bcrypt can check if 2 passwords are the same, the password entered by user and the one in database 
@@ -31,14 +36,22 @@ const sellerController = {
                 return response.status(403).json('Email ou mot de passe incorrect')
             }
 
-            const { password, ...sellerData} = seller.dataValues; // like this, we remove password from object that we'll send because it is sensitive data
+            //const { password, ...sellerData} = seller.dataValues; // like this, we remove password from object that we'll send because it is sensitive data
             
             // this seller exists and identified himself, we send him his data (witout password)
-            response.status(200).json(sellerData);
+            const updatedSeller = await Seller.findOne({
+                where: { 
+                    email
+                },
+                attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send
+      
+            })
             
-            } catch (error) {
+            response.status(200).json(updatedSeller);
+            
+        } catch (error) {
                     console.log(error);
-            }
+        }
 
     },
 
@@ -55,8 +68,7 @@ const sellerController = {
 
         if (seller) {
             //il y a déjà un utilisateur avec cet email, on envoie une erreur
-            // there is already a seller with this email
-            
+            // there is already a seller with this email  
             return response.status(403).json('Un compte existe déjà avec cet email, veuillez réessayer avec un autre email');
         }
         //on checke que l'email a un format valide
@@ -92,7 +104,7 @@ const sellerController = {
             shop_presentation: request.body.shop_presentation
         });
         
-        response.status(200).json('Votre compte a bien été créé');
+        response.status(200).json('success');
     } catch(error) {
         console.log(error);
     }
@@ -101,20 +113,15 @@ const sellerController = {
 
     getAllSellers: async (req, res) => {
     try {
-      const sellers = await Seller.findAll({     
-        raw: true
+      const sellers = await Seller.findAll({ 
+        attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send
       });
 
       if (!sellers) {
         return res.status(404).json('Cant find sellers');
       }
-      const sellersData = []
-      sellers.forEach(element => {
-        const { password, ...sellerData} = element; // like this, we remove passwords from object that we'll send because it is sensitive data
-        sellersData.push(sellerData)
-      });
       
-      res.json(sellersData);
+      res.json(sellers);
 
     } catch (error) {
       console.trace(error);
@@ -125,14 +132,14 @@ const sellerController = {
   getOneSeller: async (req, res) => {
     try {
       const sellerId = req.params.id;
-      const seller = await Seller.findByPk(sellerId);
+      const seller = await Seller.findByPk(sellerId, {
+        attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send    
+      });
       
-      if (seller) {
-        
-        const { password, ...sellerData} = seller.dataValues; // like this, we remove password from object that we'll send because it is sensitive data
-        
-        res.status(200).json(sellerData);
-      } else {
+      if (seller) {  
+        res.status(200).json(seller);
+      
+    } else {
         res.status(404).json('Cant find seller with id ' + sellerId);
       }
     } catch (error) {
@@ -203,8 +210,12 @@ const sellerController = {
             
 
           await seller.save();
+          
+          const updatedSeller = await Seller.findByPk(sellerId, {
+            attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send 
+          });
 
-          res.json(seller);
+          res.json(updatedSeller);
         }
     } catch (error) {
       console.trace(error);

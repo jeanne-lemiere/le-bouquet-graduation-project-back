@@ -11,26 +11,29 @@ const sellerController = {
             const email = request.body.email;
             const seller = await Seller.findOne({
                 where: { 
-                    email
-                            }
-                })
+                    email,
+                    // adding fake password validation for testing with fake passwords entered manually in database during seeding
+                    password: request.body.password
+                }
+              })
 
             // if no seller found with this email => error
             if (!seller) {
-                return response.status(403).json('Email ou mot de passe incorrect')
+                return response.status(404).json('Cannot find user')
             }
 
             
             // the seller with this email exists, let's compare received password with the hashed one in database
             
             // bcrypt can check if 2 passwords are the same, the password entered by user and the one in database 
-            const validPwd = bcrypt.compareSync(request.body.password, seller.dataValues.password);
+           /*  const validPwd = bcrypt.compareSync(request.body.password, seller.dataValues.password);
 
-            if (!validPwd) {
+           
+           if (!validPwd) {
                 // password is not correct, we send an error
-                return response.status(403).json('Email ou mot de passe incorrect')
+                return response.status(403).json('Wrong password')
             }
-
+ */
             const { password, ...sellerData} = seller.dataValues; // like this, we remove password from object that we'll send because it is sensitive data
             
             // this seller exists and identified himself, we send him his data (witout password)

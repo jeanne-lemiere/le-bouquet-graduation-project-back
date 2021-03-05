@@ -4,9 +4,7 @@ const productController = {
   getAllProducts: async (req, res) => {
     try {
       const products = await Product.findAll({        
-        order: [
-          ['name', 'ASC'],
-        ],
+        include : 'category'
       });
       res.json(products);
     } catch (error) {
@@ -18,7 +16,9 @@ const productController = {
   getOneProduct: async (req, res) => {
      try {
         const productId = req.params.id;
-        const product = await Product.findByPk(productId);
+        const product = await Product.findByPk(productId, {        
+            include : 'category'
+          });
          if (product) {
          res.json(product);
      } else {
@@ -36,7 +36,8 @@ const productController = {
        const products = await Product.findAll({
            where : {
                seller_id : sellerId
-           }
+           },
+           include : 'category'
        }) 
        if (products) {
            res.status(200).json(products)

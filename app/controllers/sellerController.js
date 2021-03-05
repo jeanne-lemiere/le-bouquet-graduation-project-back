@@ -141,7 +141,7 @@ const sellerController = {
     }
   },
 
-  editSeller: async (req, res) => {
+  editSellerProfile: async (req, res) => {
     try {
         const sellerId = req.params.id;
         const { email, password, passwordConfirm } = req.body;
@@ -159,7 +159,7 @@ const sellerController = {
                 }
                 const sellerExists = await Seller.findOne({
                     where: {
-                        email: req.body.email,
+                        email: email,
                     }
                 });
 

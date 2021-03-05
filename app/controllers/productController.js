@@ -30,14 +30,22 @@ const productController = {
     }
   },
 
-//  getProductsFromSeller: async (req, res) => {
-//     try {
-       // à coder    
-//     } catch (error) {
-//       console.trace(error);
-//       res.status(500).json(error.toString());
-//     }
-//  },
+ getProductsFromSeller: async (req, res) => {
+    try {
+       sellerId = req.params.id;
+       const products = await Product.findAll({
+           where : {
+               seller_id : sellerId
+           }
+       }) 
+       if (products) {
+           res.status(200).json(products)
+       }
+    } catch (error) {
+      console.trace(error);
+      res.status(500).json(error.toString());
+    }
+ },
 };
 
 module.exports = productController;

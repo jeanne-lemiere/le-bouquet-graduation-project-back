@@ -19,7 +19,7 @@ router.get('/products', productController.getAllProducts);
 router.get('/product/:id', productController.getOneProduct);
 
 
-//router.get('/seller/:id/products', productController.getProductsFromSeller);
+router.get('/seller/:id/products', productController.getProductsFromSeller);
 
 
 /* Customers */
@@ -41,13 +41,11 @@ router.get('/categories', categoryController.getAllCategories);
 
 /* Sellers */
 router.get('/sellers', sellerController.getAllSellers);
-
-router.post('/seller/login', sellerController.sellerHandleLoginForm); // LOGIN
-
-router.post('/seller/signup', sellerController.sellerHandleSignupForm); // SIGNUP
-router.patch('/seller/:id', sellerController.editSeller);
-
 router.get('/seller/:id', sellerController.getOneSeller);
+router.patch('/seller/:id', sellerController.editSellerProfile);
+router.post('/seller/login', sellerController.sellerHandleLoginForm); // LOGIN
+router.post('/seller/signup', sellerController.sellerHandleSignupForm); // SIGNUP
+
 
 
 router.use((req, res) => {

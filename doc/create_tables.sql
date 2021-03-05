@@ -112,15 +112,15 @@ CREATE TABLE "order_has_product" (
 
 
 INSERT INTO "customer" ("gender", "firstname", "lastname", "email", "password", "phone_number", "street_name", "street_number", "city", "zipcode")
-VALUES ('M', 'Jean', 'DelaFontaine', 'jean@gmail.com', 'jeandelafontaine', '0712344556', 'Cessole', '23', 'Paris', '75000' ),
+VALUES ('M', 'Jean', 'DelaFontaine', 'jean@gmail.com', 'jeandelafontaine', '0712344556', 'Boulevard de Cessole', '23', 'Paris', '75000' ),
        ('M', 'Leonard', 'Devinci', 'davinci@gmail.com', 'davincode', '0761861314', 'Laguet', '11', 'Bordeaux', '33000' ),
        ('F', 'Clara', 'Watson', 'watson@gmail.com', 'grandgalop', '0661673140', 'Fanny', '2', 'Poitiers', '86000' );
 
 
 INSERT INTO "seller" ("gender", "firstname", "lastname", "email", "password", "phone_number", "street_name", "street_number", "city", "zipcode", "picture_url", "siret", "shop_name", "shop_presentation")
-VALUES ('M', 'Edmond', 'Dantes', 'dantes@gmail.com', 'lepharaon14', '0712344556', 'Cessole', '23', 'Marseille', '13000', 'https://images.freeimages.com/images/small-previews/782/flowers-1363348.jpg', '12345678901234', 'TerraSura', 'Voici mon humble petite boutique de fleurs, je vends principalement des fleurs d''été.' ),
-       ('M', 'Albert', 'de Morcerf', 'morcerf@gmail.com', 'venise-italie', '0761861314', 'Laguet', '11', 'Bordeaux', '33000', 'https://images.freeimages.com/images/small-previews/a53/flowers-1541944.jpg', '12345678901234', 'AgricA', 'Bonjour moi c''est Albert, j''aime les fleurs et les sculptures' ),
-       ('F', 'Mercedes', 'Herrera', 'mercedes@gmail.com', 'grandgalop', '0661673140', 'Fanny', '2', 'Poitiers', '86000', 'https://images.freeimages.com/images/small-previews/0dd/flowers-1394193.jpg', '12345678901234', 'MercedesFlowers', 'Je m''appelle Mercedes et je fais de l''horticulture' );
+VALUES ('M', 'Edmond', 'Dantes', 'dantes@gmail.com', 'lepharaon14', '0712344556', 'Avenue Everest', '23', 'Marseille', '13000', 'https://images.freeimages.com/images/small-previews/782/flowers-1363348.jpg', '12345678901234', 'TerraSura', 'Voici mon humble petite boutique de fleurs, je vends principalement des fleurs d''été.' ),
+       ('M', 'Albert', 'de Morcerf', 'morcerf@gmail.com', 'venise-italie', '0761861314', 'Route de Laguet', '11', 'Bordeaux', '33000', 'https://images.freeimages.com/images/small-previews/a53/flowers-1541944.jpg', '12345678901234', 'AgricA', 'Bonjour moi c''est Albert, j''aime les fleurs et les sculptures' ),
+       ('F', 'Mercedes', 'Herrera', 'mercedes@gmail.com', 'grandgalop', '0661673140', 'Avenue Fanny', '2', 'Poitiers', '86000', 'https://images.freeimages.com/images/small-previews/0dd/flowers-1394193.jpg', '12345678901234', 'MercedesFlowers', 'Je m''appelle Mercedes et je fais de l''horticulture' );
 
 
 INSERT INTO "category" ("label")
@@ -155,10 +155,6 @@ VALUES ('21001', '56.14', 'En préparation avant livraison', 1 ), -- id 1
        ('21004', '49.99', 'Livrée', 2 ),
        ('21005', '24.00', 'Livrée', 1 ),
        ('21006', '36.90', 'Livrée', 1 );
-
-
-
-
 
 INSERT INTO "image" ("url", "product_id")
 VALUES ('https://cdn.pixabay.com/photo/2017/08/07/19/38/red-2607058__340.jpg', 1), -- id 1
@@ -202,10 +198,6 @@ VALUES ('https://cdn.pixabay.com/photo/2017/08/07/19/38/red-2607058__340.jpg', 1
        ('https://images.unsplash.com/photo-1583238941443-af9c8d745b4a?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1350&q=80', 13),
        ('https://images.unsplash.com/photo-1583238932590-a9e8156b100c?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80', 13);
 
-       
-
-
-
 
 INSERT INTO "order_has_product" ("order_id", "product_id", "quantity", "price_per_unit")
 VALUES (1, 1, 2, '24.00'),
@@ -217,7 +209,6 @@ VALUES (1, 1, 2, '24.00'),
        (4, 5, 1, '49.99'),
        (5, 1, 1, '24.00'),
        (6, 12, 1, '36.90');
-
 
 
 COMMIT;

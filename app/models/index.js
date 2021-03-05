@@ -4,7 +4,7 @@ const Order = require('./order');
 const Product = require('./product');
 const Seller = require('./seller');
 
-// un customer a plusieurs answers
+// un customer a plusieurs orders
 Customer.hasMany(Order, {
     foreignKey: "customer_id",
     as: "orders"
@@ -12,7 +12,7 @@ Customer.hasMany(Order, {
 
 // réciproque : un order est lié à un seul customer
 Order.belongsTo(Customer, {
-    foreignKey: "order_id",
+    foreignKey: "customer_id",
     as: "customer"
 });
 
@@ -59,3 +59,28 @@ Order.belongsToMany(Product, {
     otherKey: 'product_id',
     timestamps: false // il n'y a pas de updated-at dans la table de liaison
 });
+
+
+
+// Product.belongsToMany(Category, {
+//     as: "categories", // alias de l'association 
+//     through: 'product_has_category', // "via la table de liaison qui s'appelle ..."
+//     foreignKey: 'product_id', // le nom de la clef de Product dans la table de liaison
+//     otherKey: 'order_id', // le nom de la clef de "l'autre" (donc Order)
+//     timestamps: false // il n'y a pas de updated-at dans la table de liaison
+// });
+
+// // et la réciproque..
+// Order.belongsToMany(Product, {
+//     as: "products", 
+//     through: 'product_has_category',
+//     foreignKey: 'category_id',
+//     otherKey: 'product_id',
+//     timestamps: false // il n'y a pas de updated-at dans la table de liaison
+// });
+
+
+
+
+
+module.exports = { Order, Product, Image, Customer, Seller };

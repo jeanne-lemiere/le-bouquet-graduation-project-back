@@ -1,4 +1,6 @@
-const Order = require('../models/order');
+const { Order, Product } = require('../models');
+
+//const Product = require('../models/product');
 
 const orderController = {
   getOneOrder: async (req, res) => {
@@ -20,7 +22,19 @@ const orderController = {
   // modifier et coder celui là
   getSellerOrders: async (req, res) => {
     try {
-
+        const sellerId = req.params.id;
+        const orders = await Order.findAll({ 
+            include: [{
+                model : Product,
+                as: 'products',
+                where : {
+                    'seller_id' : sellerId
+                }
+            }]
+        })
+        if (orders) {
+            res.status(200).json(orders)
+        }
     } catch (error) {
       console.trace(error);
       res.status(500).json(error.toString());

@@ -47,7 +47,7 @@ router.get('/categories', categoryController.getAllCategories);
 /* Sellers */
 router.get('/sellers', sellerController.getAllSellers);
 router.get('/seller/:id', sellerController.getOneSeller);
-router.patch('/seller/:id', sellerController.editSellerProfile);
+router.patch('/seller/:id', authorization, sellerController.editSellerProfile);
 router.post('/seller/login', sellerController.sellerHandleLoginForm); // LOGIN
 router.post('/seller/signup', sellerController.sellerHandleSignupForm); // SIGNUP
 

@@ -1,6 +1,8 @@
 const {Seller} = require('../models');
 const bcrypt = require('bcrypt');
 const validator = require('email-validator');
+const jsonwebtoken = require('jsonwebtoken')
+const jwtSecret = process.env.JWT_SECRET;
 // const { Op } = require('sequelize');
 
 const sellerController = {
@@ -46,8 +48,22 @@ const sellerController = {
                 attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send
       
             })
+
+            const jwtContent = { userId: updatedSeller.id, role: "seller" };
+            const jwtOptions = { 
+              algorithm: 'HS256', 
+              expiresIn: '3h' 
+            };
+            console.log('<< 200', updatedSeller.email);
+            response.json({ 
+              logged: true, 
+              role: "seller",
+              user: updatedSeller,
+              token: jsonwebtoken.sign(jwtContent, jwtSecret, jwtOptions),
+            });
+
             
-            response.status(200).json(updatedSeller);
+            //response.status(200).json(updatedSeller);
             
         } catch (error) {
                     console.log(error);
@@ -151,6 +167,13 @@ const sellerController = {
   editSellerProfile: async (req, res) => {
     try {
         const sellerId = req.params.id;
+
+        console.log("req.user", req.user)
+        console.log("req.user.userId", req.user.userId)
+        if (sellerId != req.user.userId || req.user.role !== 'seller') {
+          return res.status(401).json('You have no right to edit seller :' + sellerId);
+        }
+
         const { email, password, passwordConfirm } = req.body;
    
         let seller = await Seller.findByPk(sellerId);
@@ -185,9 +208,9 @@ const sellerController = {
                 //console.log(element)
                 if (seller[element] && element!= 'password') { // we check that req.body doesn't contain anything unwanted, so it CAN'T contain properties that seller does not have (except passwordConfirm). We don't 
                     seller[element] = req.body[element] // instead of having 14 conditions like ` if (email) { seller.email = email } ` this will do all the work in 2 lines
-                    console.log("OK pour : "+element)
+                    //console.log("OK pour : "+element)
                 } else {
-                    console.log(element+" n'est pas une propriété attendue ici")
+                    //console.log(element+" n'est pas une propriété attendue ici")
                 }
             }
 

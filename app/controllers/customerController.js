@@ -170,8 +170,8 @@ const customerController = {
 
         console.log("req.user", req.user)
 
-        if (customerId != req.user.userId) {
-          return res.status(401).json('You have no right to see customer :' + customerId);
+        if (customerId != req.user.userId || req.user.role !== 'customer') {
+          return res.status(401).json('You have no right to edit customer :' + customerId);
         }
 
         const { email, password, passwordConfirm } = req.body;

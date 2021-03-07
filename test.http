@@ -9,9 +9,9 @@ Content-Type: application/json
 
 {
     "gender": "F",
-    "email": "doa06@gmail.com",
-    "password": "soismonami",
-    "passwordConfirm" : "soismonami",
+    "email": "abdoula@gmail.com",
+    "password": "abdoula",
+    "passwordConfirm" : "abdoula",
     "lastname": "Exploratrice",
     "firstname": "Dora",
     "phone_number": "0661737865",
@@ -49,8 +49,8 @@ POST http://localhost:3000/seller/login
 Content-Type: application/json
 
 {
-    "email": "dorio06@gmail.com",
-    "password": "soismonami"
+    "email": "abdoula@gmail.com",
+    "password": "abdoula"
 }
 
 
@@ -64,7 +64,7 @@ Content-Type: application/json
 }
 
 ### Editer un compte seller
-PATCH http://localhost:3000/customer/7
+PATCH http://localhost:3000/customer/5
 Content-Type: application/json
 Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTYxNTEyMDM0NCwiZXhwIjoxNjE1MTMxMTQ0fQ.hMr5zLJXgI9e6imnN4b_0b-0Djg4C1mQJMLDUH3iSd0
 
@@ -89,6 +89,7 @@ Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsInJv
 ### Editer un compte seller
 PATCH http://localhost:3000/seller/5
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJzZWxsZXIiLCJpYXQiOjE2MTUxMjMyMTAsImV4cCI6MTYxNTEzNDAxMH0.j3nrZMLOR-hlD2GDY0IdqU9gLDPdOYmHowJCrKhoNcM
 
 {
     "gender": "F",

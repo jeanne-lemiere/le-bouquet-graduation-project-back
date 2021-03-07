@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
     "gender": "F",
-    "email": "abdoula@gmail.com",
+    "email": "abdoula06@gmail.com",
     "password": "abdoula",
     "passwordConfirm" : "abdoula",
     "lastname": "Exploratrice",
@@ -49,7 +49,7 @@ POST http://localhost:3000/seller/login
 Content-Type: application/json
 
 {
-    "email": "abdoula@gmail.com",
+    "email": "abdoula06@gmail.com",
     "password": "abdoula"
 }
 
@@ -89,7 +89,7 @@ Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsInJv
 ### Editer un compte seller
 PATCH http://localhost:3000/seller/5
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsInJvbGUiOiJzZWxsZXIiLCJpYXQiOjE2MTUxMjMyMTAsImV4cCI6MTYxNTEzNDAxMH0.j3nrZMLOR-hlD2GDY0IdqU9gLDPdOYmHowJCrKhoNcM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjUsInJvbGUiOiJzZWxsZXIiLCJpYXQiOjE2MTUxMjQwOTEsImV4cCI6MTYxNTEzNDg5MX0.xZGWX8pCfd-gyaMDFlfRqIu6Fuqd5rz9qpoVjhIn7I4
 
 {
     "gender": "F",

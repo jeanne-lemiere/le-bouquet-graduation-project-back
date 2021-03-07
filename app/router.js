@@ -1,5 +1,7 @@
 const express = require('express');
 
+const authorization = require ('./middlewares/auth')
+
 // importer les controllers
 const productController = require('./controllers/productController');
 const customerController = require('./controllers/customerController');
@@ -25,7 +27,7 @@ router.get('/seller/:id/products', productController.getProductsFromSeller);
 
 router.get('/customers', customerController.getAllCustomers);
 router.get('/customer/:id', customerController.getOneCustomer);
-router.patch('/customer/:id', customerController.editCustomerProfile);
+router.patch('/customer/:id', authorization, customerController.editCustomerProfile);
 router.post('/customer/login', customerController.customerHandleLoginForm); // LOGIN
 router.post('/customer/signup', customerController.customerHandleSignupForm); // SIGNUP
 

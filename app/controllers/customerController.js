@@ -147,6 +147,7 @@ const customerController = {
   getOneCustomer: async (req, res) => {
     try {
       const customerId = req.params.id;
+      
       const customer = await Customer.findByPk(customerId, {
         attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send    
       });
@@ -166,6 +167,13 @@ const customerController = {
   editCustomerProfile: async (req, res) => {
     try {
         const customerId = req.params.id;
+
+        console.log("req.user", req.user)
+
+        if (customerId != req.user.userId) {
+          return res.status(401).json('You have no right to see customer :' + customerId);
+        }
+
         const { email, password, passwordConfirm } = req.body;
    
         let customer = await Customer.findByPk(customerId);
@@ -200,9 +208,9 @@ const customerController = {
                 //console.log(element)
                 if (customer[element] && element!= 'password') { // we check that req.body doesn't contain anything unwanted, so it CAN'T contain properties that customer does not have (except passwordConfirm). We don't 
                     customer[element] = req.body[element] // instead of having 14 conditions like ` if (email) { customer.email = email } ` this will do all the work in 2 lines
-                    console.log("OK pour : "+element)
+                    //console.log("OK pour : "+element)
                 } else {
-                    console.log(element+" n'est pas une propriété attendue ici")
+                    //console.log(element+" n'est pas une propriété attendue ici")
                 }
             }
 

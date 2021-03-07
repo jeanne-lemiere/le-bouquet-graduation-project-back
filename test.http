@@ -31,9 +31,9 @@ Content-Type: application/json
 
 {
     "gender": "F",
-    "email": "dora06@gmail.com",
-    "password": "soismonami",
-    "passwordConfirm" : "soismonami",
+    "email": "abdouladu06@gmail.com",
+    "password": "abdoula",
+    "passwordConfirm" : "abdoula",
     "lastname": "Exploratrice",
     "firstname": "Dora",
     "phone_number": "0661737865",
@@ -59,17 +59,18 @@ POST http://localhost:3000/customer/login
 Content-Type: application/json
 
 {
-    "email": "dora06@gmail.com",
-    "password": "soismonami"
+    "email": "abdouladu06@gmail.com",
+    "password": "abdoula"
 }
 
 ### Editer un compte seller
-PATCH http://localhost:3000/seller/3
+PATCH http://localhost:3000/customer/7
 Content-Type: application/json
+Authorization : Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsInJvbGUiOiJjdXN0b21lciIsImlhdCI6MTYxNTEyMDM0NCwiZXhwIjoxNjE1MTMxMTQ0fQ.hMr5zLJXgI9e6imnN4b_0b-0Djg4C1mQJMLDUH3iSd0
 
 {
-    "gender": "F",
-    "email": "dorita06@gmail.com",
+    "gender": "M",
+    //"email": "abdoula06@gmail.com",
     "password": "soismonami",
     "passwordConfirm" : "soismonami",
     "lastname": "Exploratrice",

@@ -1,3 +1,8 @@
+GET http://localhost:3000/customer/2
+Content-Type: application/json
+Authorization: bearer token
+
+
 ### création d'un compte seller
 POST http://localhost:3000/seller/signup
 Content-Type: application/json

@@ -1,9 +1,12 @@
 const { Customer } = require('../models');
 const bcrypt = require('bcrypt');
 const validator = require('email-validator');
+const jsonwebtoken = require('jsonwebtoken')
+const jwtSecret = process.env.JWT_SECRET;
 
 const customerController = {
     customerHandleLoginForm: async (request, response) => {
+      
         try {
             // on cherche à identifier le customer à partir de son email
             // we are trying to identify a customer from his password
@@ -41,10 +44,29 @@ const customerController = {
                     email
                 },
                 attributes: { exclude: ['password'] } // we don't want the password to be seen in the object we will send
-      
             })
+
+            console.log("updatedCustomer.id :"+updatedCustomer.id)
+            console.log("updatedCustomer : ", updatedCustomer)
             
-            response.status(200).json(updatedCustomer);
+            // ---- JWT
+
+            const jwtContent = { userId: updatedCustomer.id, role: "customer" };
+            const jwtOptions = { 
+              algorithm: 'HS256', 
+              expiresIn: '3h' 
+            };
+            console.log('<< 200', updatedCustomer.email);
+            response.json({ 
+              logged: true, 
+              role: "customer",
+              user: updatedCustomer,
+              token: jsonwebtoken.sign(jwtContent, jwtSecret, jwtOptions),
+            });
+
+            // ---- /JWT
+            
+            //response.status(200).json(updatedCustomer);
             
         } catch (error) {
                     console.log(error);

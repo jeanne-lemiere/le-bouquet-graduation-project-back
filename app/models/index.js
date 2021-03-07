@@ -74,28 +74,4 @@ Product.belongsTo(Category, {
 });
 
 
-
-// ---------------------
-
-// Product.belongsToMany(Category, {
-//     as: "categories", // alias de l'association 
-//     through: 'product_has_category', // "via la table de liaison qui s'appelle ..."
-//     foreignKey: 'product_id', // le nom de la clef de Product dans la table de liaison
-//     otherKey: 'category_id', // le nom de la clef de "l'autre" (donc Order)
-//     timestamps: false // il n'y a pas de updated-at dans la table de liaison
-// });
-
-// // et la réciproque..
-// Category.belongsToMany(Product, {
-//     as: "products", 
-//     through: 'product_has_category',
-//     foreignKey: 'category_id',
-//     otherKey: 'product_id',
-//     timestamps: false // il n'y a pas de updated-at dans la table de liaison
-// });
-
-
-
-
-
 module.exports = { Order, Product, Image, Customer, Category, Seller };

@@ -73,4 +73,4 @@ Jeanne Lemière - Product Owner / Git Master - [@Linkedin](https://www.linkedin.
 </br>
 Abdoula Voraev - Lead Dev Back - [@Linkedin](https://fr.linkedin.com/in/abdoula-voraev-306a51171)
 </br>
-Djabraïl Voraev - Lead Dev Back - [@Linkedin](https://fr.linkedin.com/in/djabrail-voraev-22b8b6207)
+Djabraïl Voraev - Lead Dev Front - [@Linkedin](https://fr.linkedin.com/in/djabrail-voraev-22b8b6207)

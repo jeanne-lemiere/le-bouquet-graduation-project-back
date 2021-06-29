@@ -1,9 +1,5 @@
 
 <p align="center">
-  <a href="#">
-    <img src="src/assets/favicon.ico" alt="Logo" width="100" height="100">
-  </a>
-
   <h3 align="center">C'est le bouquet</h3>
 
   <p align="center">

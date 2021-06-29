@@ -1,6 +1,6 @@
 
 <p align="center">
-  <h3 align="center">C'est le bouquet</h3>
+  <h3 align="center">C'est le bouquet / API</h3>
 
   <p align="center">
     A marketplace for horticulturists to sell their locally grow flowers without intermediaries.

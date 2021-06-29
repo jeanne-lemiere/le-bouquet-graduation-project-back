@@ -67,10 +67,10 @@ Distributed under the MIT License.
 <!-- CONTACT -->
 ## Contact
 
-Thibaut Jouet - [@Linkedin](https://fr.linkedin.com/in/thibaut-jouet-18793219b)
+Thibaut Jouet - Scrum Master - [@Linkedin](https://fr.linkedin.com/in/thibaut-jouet-18793219b)
 </br>
-Jeanne Lemière - [@Linkedin](https://www.linkedin.com/in/jeanne-lemi%C3%A8re-a4b36a1bb/)
+Jeanne Lemière - Product Owner / Git Master - [@Linkedin](https://www.linkedin.com/in/jeanne-lemi%C3%A8re-a4b36a1bb/)
 </br>
-Abdoula Voraev - [@Linkedin](https://fr.linkedin.com/in/abdoula-voraev-306a51171)
+Abdoula Voraev - Lead Dev Back - [@Linkedin](https://fr.linkedin.com/in/abdoula-voraev-306a51171)
 </br>
-Djabraïl Voraev - [@Linkedin](https://fr.linkedin.com/in/djabrail-voraev-22b8b6207)
+Djabraïl Voraev - Lead Dev Back - [@Linkedin](https://fr.linkedin.com/in/djabrail-voraev-22b8b6207)
